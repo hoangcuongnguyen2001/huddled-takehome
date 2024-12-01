@@ -53,7 +53,7 @@
         }
     });
 
-       // Add this function that was missing
+       // Function to analyse data by hours per day.
        function processDataForArtist(events: any[], artistId: number) {
         // Initialize array for all 24 hours
         const hourlyData = Array.from({ length: 24 }, (_, hour) => ({
@@ -85,7 +85,7 @@
         return hourlyData;
     }
    
-    // Functions to 
+    // Functions to analyse data by days of the week.
     function processDataByDayOfWeek(events: any[], artistId: number) {
         // Initialize array for all 7 days
         const dailyData = Array.from({ length: 7 }, (_, day) => ({
@@ -98,6 +98,7 @@
         // Filter events for selected artist
         const artistEvents = events.filter(event => event.artist_id === artistId);
 
+        // Convert UTC time to timezone of users.
         artistEvents.forEach(event => {
             const utcDate = new Date(event.created_at);
             const userTimezone = event.timezone;

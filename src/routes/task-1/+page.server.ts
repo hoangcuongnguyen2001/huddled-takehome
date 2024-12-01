@@ -5,8 +5,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 
   /* Bugs fixed: 
   + Remove final comma before FROM in the SQL query;
-  + Count the number of unique users that visiting each artist' page.
-
+  + Count the number of unique users that visiting each artist' page (COUNT (DISTINCT user_id))
+  Time was reformatted in the artistTable.svelte file.
   */
   const query = `
 SELECT 
