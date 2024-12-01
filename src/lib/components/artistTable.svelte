@@ -1,13 +1,24 @@
 <script lang="ts">
   let { artistVisits } = $props();
 
+  // This function was fixed to provide format duration of seconds/minutes/hours in TypeScript.
+  // Note that timestamp in this dataset was in format of milliseconds from )0:00 UTC 1 January 1970, 
+  // so we will need to divide to 1000 to get the amount of seconds.
   function formatDuration(duration: number): string {
-    const minutes = Math.floor(duration / 60);
-    const seconds = duration % 60;
+    const durationSeconds = duration / 1000;
+    const durationMinutes = durationSeconds / 60;
+    const durationHours = durationMinutes / 60;
 
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    if (durationSeconds < 60){
+      return `${Math.round(durationSeconds)} seconds`;
+    } else if (durationMinutes < 60){
+      return `${Math.round(durationMinutes)} minutes`;
+    } else {
+      return `${Math.round(durationHours)} hours`;
+    }
   }
 </script>
+
 
 <div class="overflow-x-auto">
   <div class="min-w-max w-[60rem] h-[60rem] overflow-y-auto relative scrollbar-pretty">
@@ -18,11 +29,13 @@
         <tr>
           <th scope="col" class="px-6 py-3">Artist Id</th>
           <th scope="col" class="px-6 py-3">Artist Name</th>
-          <th scope="col" class="px-6 py-3">Total Time Spent (minutes)</th>
+          <th scope="col" class="px-6 py-3">Total Interaction Time</th>
+          <!-- This Total Unique Visitors column was not presented in the beginning, so we have to add it -->
+          <th scope="col" class="px-6 py-3">Total Unique Visitors</th>
         </tr>
       </thead>
       <tbody>
-        {#each artistVisits as { artist_id, artist_name, total_visit_duration, unique_session_count }}
+        {#each artistVisits as { artist_id, artist_name, total_visit_duration, unique_visitor_count }}
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <td
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -38,7 +51,7 @@
               {formatDuration(total_visit_duration)}
             </td>
             <td class="px-6 py-4">
-              {formatDuration(unique_session_count)}
+              {unique_visitor_count}
             </td>
           </tr>
         {/each}

@@ -1,6 +1,7 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
+		"types": ["d3"],
 		"allowJs": true,
 		"checkJs": true,
 		"esModuleInterop": true,
